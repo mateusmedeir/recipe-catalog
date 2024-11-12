@@ -1,11 +1,26 @@
-import { Module } from '@nestjs/common';
-import { AppService } from './app.service';
-import { AppController } from './app.controller';
-import { PrismaService } from './database/prisma.service';
-
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { Logger, Module } from '@nestjs/common';
+import { UsersModule } from './users/users.module';
+import { HealthModule } from './health/health.module';
+import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService, PrismaService],
+  imports: [
+    ConfigModule.forRoot(),
+    PrismaModule.forRootAsync({
+      isGlobal: true,
+      useFactory: () => ({
+        middlewares: [
+          loggingMiddleware({
+            logger: new Logger('PrismaMiddleware'),
+            logLevel: 'log',
+          }),
+        ],
+      }),
+    }),
+    AuthModule,
+    UsersModule,
+    HealthModule,
+  ],
 })
 export class AppModule {}
