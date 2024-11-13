@@ -4,6 +4,7 @@ import { Logger, Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { HealthModule } from './health/health.module';
 import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
+import { RecipesModule } from './recipes/recipes.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -20,6 +21,7 @@ import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
     }),
     AuthModule,
     UsersModule,
+    RecipesModule,
     HealthModule,
   ],
 })
