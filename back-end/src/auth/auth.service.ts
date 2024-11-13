@@ -24,7 +24,7 @@ export class AuthService {
 
     return {
       ...token,
-      data: user,
+      user,
     };
   }
 
@@ -37,7 +37,7 @@ export class AuthService {
 
     return {
       ...token,
-      data: user,
+      user,
     };
   }
 

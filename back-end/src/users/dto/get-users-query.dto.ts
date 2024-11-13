@@ -1,14 +1,25 @@
+import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumberString } from 'class-validator';
+import { IsNotEmpty, IsNumber, Min } from 'class-validator';
 
 export class GetUsersQueryDto {
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Number of users per page',
+    example: 10,
+  })
+  @IsNumber()
   @IsNotEmpty()
-  @IsNumberString()
-  readonly total: string;
+  @Type(() => Number)
+  @Min(1)
+  readonly total: number;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Page number',
+    example: 0,
+  })
+  @IsNumber()
   @IsNotEmpty()
-  @IsNumberString()
-  readonly page: string;
+  @Type(() => Number)
+  @Min(1)
+  readonly page: number;
 }
