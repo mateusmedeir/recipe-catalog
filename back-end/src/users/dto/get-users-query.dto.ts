@@ -4,7 +4,6 @@ import { IsNotEmpty, IsNumber, Min } from 'class-validator';
 
 export class GetUsersQueryDto {
   @ApiProperty({
-    description: 'Number of users per page',
     example: 10,
   })
   @IsNumber()
@@ -14,7 +13,6 @@ export class GetUsersQueryDto {
   readonly total: number;
 
   @ApiProperty({
-    description: 'Page number',
     example: 0,
   })
   @IsNumber()

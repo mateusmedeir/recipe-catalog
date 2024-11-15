@@ -10,16 +10,13 @@ import { UserResponseDto } from 'src/users/dto/user-response.dto';
 
 export class LoginResponseDto {
   @Expose()
-  @ApiProperty({
-    description: 'Access token',
-  })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   readonly accessToken: string;
 
   @Expose()
   @ApiProperty({
-    description: 'Token expiration time',
     example: '1d',
   })
   @IsString()
@@ -28,7 +25,6 @@ export class LoginResponseDto {
 
   @Expose()
   @ApiProperty({
-    description: 'User',
     type: UserResponseDto,
   })
   @IsObject()

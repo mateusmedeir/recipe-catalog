@@ -3,8 +3,8 @@ import { AuthModule } from './auth/auth.module';
 import { Logger, Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { HealthModule } from './health/health.module';
-import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
 import { RecipesModule } from './recipes/recipes.module';
+import { PrismaModule, loggingMiddleware } from 'nestjs-prisma';
 @Module({
   imports: [
     ConfigModule.forRoot(),

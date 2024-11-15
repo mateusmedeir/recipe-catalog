@@ -13,7 +13,6 @@ export class UserResponseDto {
 
   @Expose()
   @ApiProperty({
-    description: 'Email',
     example: 'email@example.com',
   })
   @IsString()

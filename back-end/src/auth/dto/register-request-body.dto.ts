@@ -13,17 +13,13 @@ export class RegisterRequestBodyDto {
   @Transform(({ value }) => value.toLowerCase())
   readonly email: string;
 
-  @ApiProperty({
-    example: '12345678Abc',
-  })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Length(6, 24)
   readonly password: string;
 
-  @ApiProperty({
-    example: '12345678Abc',
-  })
+  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @Length(6, 24)

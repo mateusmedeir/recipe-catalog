@@ -42,7 +42,6 @@ export class AuthController {
   }
 
   @Post('/register')
-  @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Cadastro de usuário' })
   @ApiCreatedResponse({
     description: 'Usuário cadastrado com sucesso',
