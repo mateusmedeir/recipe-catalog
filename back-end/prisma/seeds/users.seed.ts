@@ -17,6 +17,7 @@ export async function createUsers() {
 
     await prismaClient.user.createMany({
       data: Array.from({ length: config.usersAmount }, () => ({
+        name: faker.person.firstName() + ' ' + faker.person.lastName(),
         email: faker.internet.email(),
         password: bcrypt.hashSync('123456', bcrypt.genSaltSync(10)),
       })),

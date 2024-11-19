@@ -20,7 +20,10 @@ export class AuthService {
   async login(body: LoginRequestBodyDto) {
     const token = this.createToken(body.email);
 
-    const user = await this.usersService.findUserByEmail(body.email);
+    const findUser = await this.usersService.findUserByEmail(body.email);
+    if (!findUser) throw new UnauthorizedError('Usuário não encontrado');
+
+    const user = await this.usersService.getUser(findUser.id);
 
     return {
       ...token,
@@ -32,8 +35,10 @@ export class AuthService {
     const userExists = await this.usersService.findUserByEmail(body.email);
     if (userExists) throw new UnauthorizedError('Email já cadastrado');
 
-    const user = await this.usersService.createUser(body);
+    const createdUser = await this.usersService.createUser(body);
     const token = this.createToken(body.email);
+
+    const user = await this.usersService.getUser(createdUser.id);
 
     return {
       ...token,

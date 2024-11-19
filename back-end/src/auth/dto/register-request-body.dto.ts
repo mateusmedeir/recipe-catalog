@@ -5,6 +5,14 @@ import { Transform } from 'class-transformer';
 
 export class RegisterRequestBodyDto {
   @ApiProperty({
+    example: 'John Doe',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Length(3, 50)
+  readonly name: string;
+
+  @ApiProperty({
     example: 'example@email.com',
   })
   @IsEmail()

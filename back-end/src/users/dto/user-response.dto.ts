@@ -13,6 +13,15 @@ export class UserResponseDto {
 
   @Expose()
   @ApiProperty({
+    example: 'John Doe',
+  })
+  @IsString()
+  @IsNotEmpty()
+  @Length(3, 50)
+  readonly name: string;
+
+  @Expose()
+  @ApiProperty({
     example: 'email@example.com',
   })
   @IsString()
