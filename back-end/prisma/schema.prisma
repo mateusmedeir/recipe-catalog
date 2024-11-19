@@ -27,8 +27,9 @@ model Recipe {
   id String @id @default(uuid()) @db.Uuid
 
   name         String
-  ingredients  RecipeIngredient[]
-  instructions String
+  ingredients  String[]
+  instructions String[]
+  difficulty   RecipeDifficulty @default(EASY)
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
@@ -37,29 +38,8 @@ model Recipe {
   @@map("recipes")
 }
 
-model Ingredient {
-  id String @id @default(uuid()) @db.Uuid
-
-  name              String             @unique
-  recipeIngredients RecipeIngredient[]
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("ingredients")
-}
-
-model RecipeIngredient {
-  id           String @id @default(uuid()) @db.Uuid
-  recipeId     String @map("recipe_id") @db.Uuid
-  ingredientId String @map("ingredient_id") @db.Uuid
-
-  amount     String
-  recipe     Recipe     @relation(fields: [recipeId], references: [id])
-  ingredient Ingredient @relation(fields: [ingredientId], references: [id])
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@map("recipe_ingredients")
+enum RecipeDifficulty {
+  EASY
+  MEDIUM
+  HARD
 }

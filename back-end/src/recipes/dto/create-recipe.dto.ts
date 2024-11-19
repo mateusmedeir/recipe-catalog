@@ -1,19 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform, Type } from 'class-transformer';
 import { IsArray, IsNotEmpty, IsString } from 'class-validator';
-
-class CreateRecipeIngredientDto {
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.toLowerCase())
-  readonly name: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  readonly amount: string;
-}
 
 export class CreateRecipeDto {
   @ApiProperty({
@@ -25,27 +11,21 @@ export class CreateRecipeDto {
 
   @ApiProperty({
     example: [
-      {
-        name: 'farinha',
-        amount: '1 xícara',
-      },
-      {
-        name: 'leite',
-        amount: '1 xícara',
-      },
-      {
-        name: 'ovo',
-        amount: '1',
-      },
+      '1 xícara de farinha de trigo',
+      '1 xícara de leite',
+      '1 ovo',
+      '1 colher de sopa de açúcar',
+      '1 pitada de sal',
     ],
   })
   @IsArray()
-  @Type(() => CreateRecipeIngredientDto)
+  @IsString({ each: true })
   @IsNotEmpty()
-  readonly ingredients: CreateRecipeIngredientDto[];
+  readonly ingredients: string[];
 
   @ApiProperty()
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   @IsNotEmpty()
-  readonly instructions: string;
+  readonly instructions: string[];
 }

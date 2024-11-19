@@ -10,43 +10,13 @@ export class RecipesService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createRecipe(body: CreateRecipeDto) {
-    const recipeIngredients = [];
     const recipe = await this.prisma.recipe.create({
       data: {
         name: body.name,
+        ingredients: body.ingredients,
         instructions: body.instructions,
       },
-      include: {
-        ingredients: true,
-      },
     });
-
-    await Promise.all(
-      body.ingredients.map(async (recipeIngredient) => {
-        let ingredient = await this.prisma.ingredient.findUnique({
-          where: { name: recipeIngredient.name },
-          select: { id: true },
-        });
-        if (!ingredient) {
-          ingredient = await this.prisma.ingredient.create({
-            data: { name: recipeIngredient.name },
-            select: { id: true },
-          });
-        }
-
-        recipeIngredients.push(
-          await this.prisma.recipeIngredient.create({
-            data: {
-              amount: recipeIngredient.amount,
-              recipeId: recipe.id,
-              ingredientId: ingredient.id,
-            },
-          }),
-        );
-      }),
-    );
-
-    recipe.ingredients = recipeIngredients;
 
     return recipe;
   }
@@ -54,7 +24,6 @@ export class RecipesService {
   async getRecipe(id: string) {
     const recipe = await this.prisma.recipe.findUnique({
       where: { id },
-      include: { ingredients: true },
     });
 
     if (!recipe || recipe.deletedAt)
@@ -74,14 +43,12 @@ export class RecipesService {
 
     const [recipes, total] = await this.prisma.$transaction([
       this.prisma.recipe.findMany({
-        where: where,
+        where,
         skip: (query.page - 1) * query.total,
         take: query.total,
-        include: { ingredients: true },
       }),
       this.prisma.recipe.count({ where }),
     ]);
-
     return { data: recipes, total };
   }
 
