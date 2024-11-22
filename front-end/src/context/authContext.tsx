@@ -1,84 +1,90 @@
-'use client'
+"use client";
 
-import api from '@/services/api'
-import { createContext, useContext, useEffect, useState } from 'react'
-import { IUser } from '@/interfaces/user.interface'
-import { IAuthContext } from '@/interfaces/auth-context.interface'
-import { usePathname, useRouter } from 'next/navigation'
-import { useToast } from '@/hooks/use-toast'
-import { ToastAction } from '@/components/ui/toast'
+import api from "@/services/api";
+import { usePathname, useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { IUser } from "@/interfaces/user.interface";
+import { ToastAction } from "@/components/ui/toast";
+import { IAuthContext } from "@/interfaces/auth-context.interface";
+import { createContext, useContext, useEffect, useState } from "react";
 
-const TOKEN_KEY = 'accessToken'
+const TOKEN_KEY = "accessToken";
 
-const AuthContext = createContext({} as IAuthContext)
+const AuthContext = createContext({} as IAuthContext);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { toast } = useToast()
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
+  const { toast } = useToast();
 
-  const [user, setUser] = useState<IUser | null>(null)
+  const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     const loadUser = async () => {
-      const token = localStorage.getItem(TOKEN_KEY)
+      try {
+        const response = await api.get("/users/me");
 
-      if (!token) {
-        if (!pathname.includes('/login')) router.push('/login')
-      } else {
-        if (pathname.includes('/login')) router.push('/')
-        const response = await api.get('/users/me')
-        setUser(response.data)
+        setUser(response.data);
+        if (pathname.includes("/login") || pathname.includes("/register"))
+          router.push("/");
+      } catch (error) {
+        router.push("/login");
       }
-    }
-    loadUser()
-  }, [])
+    };
+    loadUser();
+  }, []);
 
-  const saveAuthData = async (user: IUser, token: string) => {
-    localStorage.setItem(TOKEN_KEY, token)
-    setUser(user)
-  }
   const register = async (
+    name: string,
     email: string,
     password: string,
     confirmPassword: string
   ) => {
     try {
-      const response = await api.post('/auth/register', {
+      const response = await api.post("/auth/register", {
+        name,
         email,
         password,
-        confirmPassword
-      })
+        confirmPassword,
+      });
 
-      saveAuthData(response.data.user, response.data.accessToken)
+      setUser(response.data);
+      router.push("/");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
-  }
+  };
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await api.post('/auth/login', {
+      const response = await api.post("/auth/login", {
         email,
-        password
-      })
-      saveAuthData(response.data.user, response.data.accessToken)
-      router.push('/')
+        password,
+      });
+
+      setUser(response.data);
+      router.push("/");
     } catch (error: any) {
       toast({
-        title: 'Falha na autenticação',
+        title: "Falha na autenticação",
         description: error.response.data.message,
-        variant: 'destructive',
-        action: <ToastAction altText="Fechar">Fechar</ToastAction>
-      })
+        variant: "destructive",
+        action: <ToastAction altText="Fechar">Fechar</ToastAction>,
+        duration: 6000,
+      });
     }
-  }
+  };
 
   const logout = async () => {
-    localStorage.removeItem(TOKEN_KEY)
-    api.defaults.headers.common['Authorization'] = ''
-    router.push('/login')
-  }
+    try {
+      await api.post("/auth/logout");
+
+      setUser(null);
+      router.push("/login");
+    } catch (error: any) {
+      console.error(error);
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -87,16 +93,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser,
         register,
         login,
-        logout
+        logout,
       }}
     >
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 const useAuth = () => {
-  return useContext(AuthContext)
-}
+  return useContext(AuthContext);
+};
 
-export { AuthProvider, useAuth }
+export { AuthProvider, useAuth };

@@ -1,65 +1,66 @@
-'use client'
+"use client";
 
-import { z } from 'zod'
+import { z } from "zod";
 
 import {
   Form,
   FormControl,
   FormField,
+  FormInput,
   FormItem,
-  FormLabel
-} from '@/components/ui/form'
-import { Input } from '../ui/input'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { Button } from '../ui/button'
-import { PasswordInput } from '../ui/password-input'
-import { useAuth } from '@/context/authContext'
+  FormLabel,
+  FormPasswordInput,
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "../ui/button";
+import { useAuth } from "@/context/authContext";
+import Link from "next/link";
+import { ToastAction } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
 export default function LoginForm() {
-  const minPasswordLength = 6
-  const maxPasswordLength = 24
+  const minPasswordLength = 6;
+  const maxPasswordLength = 24;
 
-  const { login } = useAuth()
+  const { toast } = useToast();
+  const { login } = useAuth();
 
   const LoginSchema = z.object({
     email: z.string().email({
-      message: 'Email inválido'
+      message: "Email inválido",
     }),
     password: z
       .string()
       .min(minPasswordLength, {
-        message: 'Senha deve ter no mínimo 6 caracteres'
+        message: "Senha deve ter no mínimo 6 caracteres",
       })
       .max(maxPasswordLength, {
-        message: 'Senha deve ter no máximo 24 caracteres'
-      })
-  })
-  type LoginData = z.infer<typeof LoginSchema>
+        message: "Senha deve ter no máximo 24 caracteres",
+      }),
+  });
+  type LoginData = z.infer<typeof LoginSchema>;
 
   const form = useForm<LoginData>({
     resolver: zodResolver(LoginSchema),
-    mode: 'onChange',
+    mode: "onChange",
     defaultValues: {
-      email: '',
-      password: ''
-    }
-  })
+      email: "",
+      password: "",
+    },
+  });
 
   async function handleLoginSubmit(data: LoginData) {
-    if (!form.formState.isValid) return
+    if (!form.formState.isValid) return;
 
-    try {
-      login(data.email, data.password)
-    } catch (error) {
-      console.error(error)
-    }
+    await login(data.email, data.password);
   }
 
   return (
     <Form {...form}>
-      <form className="w-full grid gap-6"
-      onSubmit={form.handleSubmit(handleLoginSubmit)}
+      <form
+        className="w-full grid gap-6"
+        onSubmit={form.handleSubmit(handleLoginSubmit)}
       >
         <FormField
           control={form.control}
@@ -68,7 +69,7 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
+                <FormInput
                   {...field}
                   type="email"
                   autoCorrect="off"
@@ -87,7 +88,7 @@ export default function LoginForm() {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <PasswordInput {...field} />
+                <FormPasswordInput {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -99,8 +100,13 @@ export default function LoginForm() {
         >
           Login
         </Button>
-        <p>Don't have an account? Sign up</p>
+        <p>
+          Não possui uma conta?{" "}
+          <Link className="underline font-medium" href="/register">
+            Cadastre-se
+          </Link>
+        </p>
       </form>
     </Form>
-  )
+  );
 }

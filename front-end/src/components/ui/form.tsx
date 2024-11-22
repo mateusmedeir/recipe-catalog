@@ -14,6 +14,8 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { PasswordInput } from "./password-input"
 
 const Form = FormProvider
 
@@ -95,13 +97,37 @@ const FormLabel = React.forwardRef<
   return (
     <Label
       ref={ref}
-      className={cn(error && "text-red-500 dark:text-red-900", className)}
+      className={cn(error && "text-red-500", className)}
       htmlFor={formItemId}
       {...props}
     />
   )
 })
 FormLabel.displayName = "FormLabel"
+
+const FormInput =  React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, type, ...props }, ref) => {
+  const { error } = useFormField()
+
+  return (
+    <Input
+      className={cn(error && "border-red-500 focus-visible:ring-red-500", className)}
+      {...props}
+    />
+  )
+})
+FormInput.displayName = "FormInput"
+
+const FormPasswordInput =  React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(({ className, type, ...props }, ref) => {
+  const { error } = useFormField()
+
+  return (
+    <PasswordInput
+      className={cn(error && "border-red-500 focus-visible:ring-red-500", className)}
+      {...props}
+    />
+  )
+})
+FormPasswordInput.displayName = "FormPasswordInput"
 
 const FormControl = React.forwardRef<
   React.ElementRef<typeof Slot>,
@@ -171,6 +197,8 @@ export {
   Form,
   FormItem,
   FormLabel,
+  FormInput,
+  FormPasswordInput,
   FormControl,
   FormDescription,
   FormMessage,
