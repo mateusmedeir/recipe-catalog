@@ -53,7 +53,7 @@ export class UsersController {
     description: 'operação bem-sucedida',
     type: UserResponseDto,
   })
-  async getAllUsers(@Query() query: GetUsersQueryDto) {
-    return this.usersService.getAllUsers(query);
+  async getUsers(@Query() query: GetUsersQueryDto) {
+    return this.usersService.getUsers(query);
   }
 }

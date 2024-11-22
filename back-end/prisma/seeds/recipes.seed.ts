@@ -21,14 +21,14 @@ export async function createRecipes() {
       for (let i = 0; i < config.recipesAmount; i++) {
         await prismaClient.recipe.create({
           data: {
-            name: faker.lorem.words(),
+            name: faker.food.dish(),
             ingredients: Array.from(
               {
                 length: Math.floor(
                   Math.random() * (config.ingredientsAmount - 1) + 1,
                 ),
               },
-              () => faker.lorem.sentence(),
+              () => faker.food.ingredient(),
             ),
             instructions: Array.from(
               {

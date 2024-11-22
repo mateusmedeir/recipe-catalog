@@ -4,7 +4,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { AuthService } from '../../auth/auth.service';
 import authConfig from '../../auth/config/auth.config';
-import { UnauthorizedError } from 'src/common/exceptions';
+import { Request } from 'express';
 
 export interface JwtPayload {
   email: string;
@@ -17,17 +17,24 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private readonly authConfiguration: ConfigType<typeof authConfig>,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        JwtStrategy.extractJWT,
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ]),
       ignoreExpiration: false,
       secretOrKey: authConfiguration.JWT_SECRET,
     });
   }
 
-  async validate(payload: JwtPayload) {
-    const user = this.authService.validateUser(payload);
+  private static extractJWT(req: Request): string | null {
+    if (req.cookies && 'access_token' in req.cookies) {
+      return req.cookies['access_token'];
+    }
+    return null;
+  }
 
-    if (!user) throw new UnauthorizedError('Token inválido');
-
+  async validate(payload: JwtPayload): Promise<any> {
+    const user = await this.authService.validateUser(payload);
     return user;
   }
 }

@@ -22,14 +22,14 @@ export class UsersService {
     return user;
   }
 
-  async getAllUsers(query: GetUsersQueryDto) {
+  async getUsers(query: GetUsersQueryDto) {
     return this.prisma.user.findMany({
       skip: (query.page - 1) * query.total,
       take: query.total,
     });
   }
 
-  async findUserByEmail(email: string, pw = false) {
+  findUserByEmail(email: string, pw = false) {
     if (!email) throw new BadRequestError('Email não informado');
 
     return this.prisma.user.findUnique({

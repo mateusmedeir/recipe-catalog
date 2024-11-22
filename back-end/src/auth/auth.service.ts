@@ -1,7 +1,6 @@
+import { Response } from 'express';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigType } from '@nestjs/config';
-import authConfig from './config/auth.config';
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { UnauthorizedError } from 'src/common/exceptions';
 import { JwtPayload } from 'src/common/strategies/jwt.strategy';
@@ -13,50 +12,51 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
-    @Inject(authConfig.KEY)
-    private readonly authConfiguration: ConfigType<typeof authConfig>,
   ) {}
 
-  async login(body: LoginRequestBodyDto) {
-    const token = this.createToken(body.email);
-
+  async login(response: Response, body: LoginRequestBodyDto) {
     const findUser = await this.usersService.findUserByEmail(body.email);
     if (!findUser) throw new UnauthorizedError('Usuário não encontrado');
 
     const user = await this.usersService.getUser(findUser.id);
 
-    return {
-      ...token,
-      user,
-    };
+    await this.setToken(response, body.email);
+
+    return user;
   }
 
-  async register(body: RegisterRequestBodyDto) {
+  async register(response: Response, body: RegisterRequestBodyDto) {
     const userExists = await this.usersService.findUserByEmail(body.email);
     if (userExists) throw new UnauthorizedError('Email já cadastrado');
 
     const createdUser = await this.usersService.createUser(body);
-    const token = this.createToken(body.email);
-
     const user = await this.usersService.getUser(createdUser.id);
 
-    return {
-      ...token,
-      user,
-    };
+    await this.setToken(response, body.email);
+
+    return user;
   }
 
-  private createToken(email: string) {
-    const accessToken = this.jwtService.sign({ email });
+  async logout(response: Response) {
+    response.clearCookie('access_token');
 
-    return {
-      expiresIn: this.authConfiguration.JWT_EXPIRES_TIME,
-      accessToken,
-    };
+    return true;
+  }
+
+  private async setToken(response: Response, email: string) {
+    const today = new Date();
+
+    const token = await this.jwtService.signAsync({ email });
+
+    response.cookie('access_token', token, {
+      httpOnly: true,
+      expires: new Date(new Date().setDate(today.getDate() + 30)),
+    });
   }
 
   async validateUser(payload: JwtPayload) {
-    const user = await this.usersService.findUserByEmail(payload.email, true);
+    const user = this.usersService.findUserByEmail(payload.email, true);
+
     if (!user) throw new UnauthorizedError('Token inválido');
 
     return user;
