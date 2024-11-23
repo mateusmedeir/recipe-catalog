@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { Logger } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, RecipeDifficulty } from '@prisma/client';
 
 const prismaClient = new PrismaClient();
 const logger = new Logger('PrismaSeeder');
@@ -11,6 +11,11 @@ export async function createRecipes() {
     ingredientsAmount: 8,
     instructionsAmount: 5,
   };
+  const difficultyLevels = [
+    RecipeDifficulty.EASY,
+    RecipeDifficulty.MEDIUM,
+    RecipeDifficulty.HARD,
+  ];
 
   try {
     await prismaClient.recipe.deleteMany();
@@ -38,6 +43,8 @@ export async function createRecipes() {
               },
               () => faker.lorem.sentence(),
             ),
+            preparationTime: Math.floor(Math.random() * 120),
+            difficulty: difficultyLevels[Math.floor(Math.random() * 3)],
           },
         });
       }

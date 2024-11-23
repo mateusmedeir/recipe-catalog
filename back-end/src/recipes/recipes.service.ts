@@ -15,6 +15,7 @@ export class RecipesService {
         name: body.name,
         ingredients: body.ingredients,
         instructions: body.instructions,
+        preparationTime: body.preparationTime,
       },
     });
 

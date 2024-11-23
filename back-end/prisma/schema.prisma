@@ -27,10 +27,11 @@ model User {
 model Recipe {
   id String @id @default(uuid()) @db.Uuid
 
-  name         String
-  ingredients  String[]
-  instructions String[]
-  difficulty   RecipeDifficulty @default(EASY)
+  name            String
+  ingredients     String[]
+  instructions    String[]
+  preparationTime Int
+  difficulty      RecipeDifficulty @default(EASY)
 
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")

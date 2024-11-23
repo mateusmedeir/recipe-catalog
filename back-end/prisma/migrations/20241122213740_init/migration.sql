@@ -20,6 +20,7 @@ CREATE TABLE "recipes" (
     "name" TEXT NOT NULL,
     "ingredients" TEXT[],
     "instructions" TEXT[],
+    "preparationTime" INTEGER NOT NULL,
     "difficulty" "RecipeDifficulty" NOT NULL DEFAULT 'EASY',
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,

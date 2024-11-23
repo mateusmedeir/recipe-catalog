@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { RecipeDifficulty } from '@prisma/client';
 import { Expose } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsEnum, IsInt, IsNotEmpty, IsString } from 'class-validator';
 
 export class RecipeResponseDto {
   @Expose()
@@ -47,4 +48,20 @@ export class RecipeResponseDto {
   @IsString({ each: true })
   @IsNotEmpty()
   readonly instructions: string[];
+
+  @Expose()
+  @ApiProperty({
+    example: 30,
+  })
+  @IsInt()
+  @IsNotEmpty()
+  readonly preparationTime: number;
+
+  @Expose()
+  @ApiProperty({
+    example: 'EASY',
+  })
+  @IsEnum(RecipeDifficulty)
+  @IsNotEmpty()
+  readonly difficulty: RecipeDifficulty;
 }
