@@ -4,7 +4,7 @@ import Link from "next/link";
 import ProfileMenu from "./_components/profile-menu";
 import { SearchIcon, XIcon } from "lucide-react";
 import { useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface TopbarProps {
   type?: "default" | "simple";
@@ -12,7 +12,6 @@ interface TopbarProps {
 
 const Topbar: React.FC<TopbarProps> = ({ type = "default" }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [searchMode, setSearchMode] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -58,26 +57,31 @@ const Topbar: React.FC<TopbarProps> = ({ type = "default" }) => {
             >
               Recipe Catalog
             </Link>
-            <div className="max-sm:hidden bg-white flex items-center px-5 gap-2">
-              <input
-                className="bg-transparent w-full h-min text-black py-2.5 rounded-lg outline-none"
-                type="text"
-                placeholder="Pesquisar"
-              />
-              <SearchIcon />
-            </div>
             {type === "default" && (
-              <div className="ml-auto flex items-center gap-4">
-                <button
-                  className="sm:hidden"
-                  onClick={() =>
-                    setSearchMode((oldSearchMode) => !oldSearchMode)
-                  }
+              <>
+                <form
+                  className="max-sm:hidden bg-white flex items-center px-5 gap-2"
+                  onSubmit={handleFormSubmit}
                 >
-                  <SearchIcon className="text-black" />
-                </button>
-                <ProfileMenu />
-              </div>
+                  <input
+                    className="bg-transparent w-full h-min text-black py-2.5 rounded-lg outline-none"
+                    type="text"
+                    placeholder="Pesquisar"
+                  />
+                  <SearchIcon />
+                </form>
+                <div className="ml-auto flex items-center gap-4">
+                  <button
+                    className="sm:hidden"
+                    onClick={() =>
+                      setSearchMode((oldSearchMode) => !oldSearchMode)
+                    }
+                  >
+                    <SearchIcon className="text-black" />
+                  </button>
+                  <ProfileMenu />
+                </div>
+              </>
             )}
           </>
         )}

@@ -7,7 +7,6 @@ import {
   PaginationEllipsis,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Fragment } from "react";
 
 interface PaginationControlProps {
   link: string;

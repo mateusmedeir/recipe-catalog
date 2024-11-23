@@ -13,7 +13,7 @@ const FormContainer: React.FC<FormContainerProps> = ({
   children,
 }) => {
   return (
-    <div className="w-full flex-1 flex justify-center items-center">
+    <div className="container flex justify-center items-center">
       <div className="w-full h-fit max-w-md flex flex-col items-center gap-8">
         <h2 className="w-full text-left text-3xl font-bold">{title}</h2>
         <Suspense
