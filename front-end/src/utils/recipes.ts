@@ -18,6 +18,10 @@ async function getRecipes({
   return response.data;
 }
 
+async function deleteRecipe(id: string): Promise<void> {
+  await api.delete(`/recipes/${id}`);
+}
+
 const getRecipeDifficulty = (difficulty: RecipeDifficulty) => {
   switch (difficulty) {
     case RecipeDifficulty.EASY:
@@ -31,4 +35,4 @@ const getRecipeDifficulty = (difficulty: RecipeDifficulty) => {
   }
 };
 
-export { getRecipes, getRecipeDifficulty };
+export { getRecipes, deleteRecipe, getRecipeDifficulty };

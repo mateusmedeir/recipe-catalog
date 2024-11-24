@@ -5,43 +5,57 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { ArrowLeftIcon, TimerIcon } from "lucide-react";
+
 import { IRecipe } from "@/interfaces/recipe.interface";
-import { TimerIcon } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getRecipeDifficulty } from "@/utils/recipes";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import RecipeMenu from "./_components/recipe-menu";
 
 interface RecipeModalProps {
   recipe: IRecipe;
+  deleteRecipe: (id: string) => void;
   children: React.ReactNode;
 }
 
-const RecipeModal: React.FC<RecipeModalProps> = ({ recipe, children }) => {
+const RecipeModal: React.FC<RecipeModalProps> = ({
+  recipe,
+  deleteRecipe,
+  children,
+}) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
         <button>{children}</button>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl px-0 py-16">
-        <div className="container grid gap-8">
-          <DialogHeader className="text-left flex items-center gap-8">
+      <DialogContent className="max-w-3xl px-0 py-4 gap-0">
+        <div className="px-4 w-full flex justify-between">
+          <DialogPrimitive.Close className="hover:cursor-pointer" asChild>
+            <ArrowLeftIcon />
+          </DialogPrimitive.Close>
+          <RecipeMenu recipe={recipe} deleteRecipe={deleteRecipe} />
+        </div>
+        <div className="container grid gap-12 py-6">
+          <DialogHeader className="text-left flex items-center gap-4">
             <DialogTitle className="w-full text-3xl">{recipe.name}</DialogTitle>
-            <Card className="w-full max-w-[350px]">
-              <CardContent className="h-full p-0">
-                <div className="h-full flex justify-between items-center py-2">
-                  <div className="w-full flex justify-center">
-                    {getRecipeDifficulty(recipe.difficulty)}
-                  </div>
-                  <Separator className="py-6" orientation="vertical" />
-
-                  <div className="w-full flex gap-1 justify-center items-center">
-                    <TimerIcon size={20} />
-                    {recipe.preparationTime} min
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </DialogHeader>
+          <Card className="mx-auto w-full max-w-[350px]">
+            <CardContent className="h-full p-0">
+              <div className="h-full flex justify-between items-center py-2">
+                <div className="w-full flex justify-center">
+                  {getRecipeDifficulty(recipe.difficulty)}
+                </div>
+                <Separator className="py-6" orientation="vertical" />
+
+                <div className="w-full flex gap-1 justify-center items-center">
+                  <TimerIcon size={20} />
+                  {recipe.preparationTime} min
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           <div className="grid gap-6">
             <div className="grid gap-4">
               <h2 className="text-xl font-bold">Ingredientes</h2>

@@ -36,7 +36,7 @@ const Topbar: React.FC<TopbarProps> = ({ type = "default" }) => {
   return (
     <header className="bg-primary w-full flex flex-col items-center py-4">
       <div
-        className={`mx-auto max-w-5xl w-full h-full px-3 ${
+        className={`mx-auto max-w-5xl w-full h-full sm:px-8 px-3 ${
           searchMode
             ? "flex gap-3"
             : "grid grid-cols-2 sm:grid-cols-[minmax(175px,_auto)_minmax(150px,_2fr)_minmax(180px,_auto)]"

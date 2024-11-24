@@ -2,24 +2,42 @@
 
 import RecipeCard from "@/components/cards/recipe-card";
 import { IRecipe } from "@/interfaces/recipe.interface";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PaginationControl from "@/components/pagination-control";
-import { getRecipes } from "@/utils/recipes";
+import { deleteRecipe, getRecipes } from "@/utils/recipes";
 import RecipeModal from "@/components/modals/recipe-modal";
 import AddRecipeModal from "@/components/modals/add-recipe-modal";
 import { Button } from "@/components/ui/button";
 import { PlusCircleIcon } from "lucide-react";
 
 const RecipesList = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
   const [total, setTotal] = useState(0);
-  const searchParams = useSearchParams();
+
+  const handledeleteRecipe = async (id: string) => {
+    await deleteRecipe(id);
+
+    const newRecipes = recipes.filter((recipe) => recipe.id !== id);
+
+    if (newRecipes.length === 0) {
+      const page = parseInt(String(params.get("page"))) || 1;
+      if (page > 1) {
+        params.set("page", String(page - 1));
+        router.push(`?${params.toString()}`);
+        return;
+      }
+    } else setRecipes(newRecipes);
+  };
 
   useEffect(() => {
     const fetchRecipes = async () => {
       const { data, total } = await getRecipes({
-        params: new URLSearchParams(searchParams.toString()),
+        params,
       });
       setRecipes(data);
       setTotal(total);
@@ -36,7 +54,11 @@ const RecipesList = () => {
         </Button>
       </AddRecipeModal>
       {recipes?.map((recipe, index) => (
-        <RecipeModal key={index} recipe={recipe}>
+        <RecipeModal
+          key={index}
+          recipe={recipe}
+          deleteRecipe={handledeleteRecipe}
+        >
           <RecipeCard recipe={recipe} />
         </RecipeModal>
       ))}
