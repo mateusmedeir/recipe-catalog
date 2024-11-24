@@ -4,7 +4,7 @@ import Link from "next/link";
 import ProfileMenu from "./_components/profile-menu";
 import { SearchIcon, XIcon } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 interface TopbarProps {
   type?: "default" | "simple";
@@ -12,23 +12,31 @@ interface TopbarProps {
 
 const Topbar: React.FC<TopbarProps> = ({ type = "default" }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams.toString());
+
   const [searchMode, setSearchMode] = useState(false);
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    setSearchMode(false);
+
     const inputValue = e.currentTarget.querySelector("input")?.value;
     const nameSearch = inputValue?.split(" ").join("-").toLowerCase();
 
-    setSearchMode(false);
+    if (nameSearch) params.set("search", nameSearch);
+    else params.delete("search");
 
-    router.push(`/${nameSearch ? `?s=${nameSearch}` : ""}`);
+    if (params.has("page")) params.set("page", "1");
+
+    router.push(`/?${params.toString()}`);
   };
 
   return (
     <header className="bg-primary w-full flex flex-col items-center py-4">
       <div
-        className={`container ${
+        className={`mx-auto max-w-5xl w-full h-full px-3 ${
           searchMode
             ? "flex gap-3"
             : "grid grid-cols-2 sm:grid-cols-[minmax(175px,_auto)_minmax(150px,_2fr)_minmax(180px,_auto)]"

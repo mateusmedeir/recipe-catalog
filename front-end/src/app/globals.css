@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --radius: 0.5rem;
+}
+
 .container {
-  @apply mx-auto max-w-5xl w-full h-full px-3;
+  @apply mx-auto max-w-3xl w-full h-full px-3;
 }
 
 body {
