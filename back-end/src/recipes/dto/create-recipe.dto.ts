@@ -1,9 +1,12 @@
 import {
+  ArrayMaxSize,
+  ArrayMinSize,
   IsArray,
   IsEnum,
   IsInt,
   IsNotEmpty,
   IsString,
+  Length,
   Max,
   Min,
 } from 'class-validator';
@@ -15,6 +18,7 @@ export class CreateRecipeDto {
     example: 'Panquecas',
   })
   @IsString()
+  @Length(3, 80)
   @IsNotEmpty()
   readonly name: string;
 
@@ -29,6 +33,9 @@ export class CreateRecipeDto {
   })
   @IsArray()
   @IsString({ each: true })
+  @ArrayMinSize(1)
+  @ArrayMaxSize(30)
+  @Length(3, 80, { each: true })
   @IsNotEmpty()
   readonly ingredients: string[];
 
@@ -44,6 +51,9 @@ export class CreateRecipeDto {
   })
   @IsArray()
   @IsString({ each: true })
+  @ArrayMinSize(1)
+  @ArrayMaxSize(30)
+  @Length(3, 200, { each: true })
   @IsNotEmpty()
   readonly instructions: string[];
 

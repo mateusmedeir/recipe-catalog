@@ -12,7 +12,7 @@ export class GetRecipesQueryDto {
   @ApiProperty({})
   @IsString()
   @IsOptional()
-  readonly name?: string;
+  readonly search?: string;
 
   @ApiProperty({
     example: 1,
@@ -30,5 +30,5 @@ export class GetRecipesQueryDto {
   @IsNotEmpty()
   @Type(() => Number)
   @Min(1)
-  readonly total: number;
+  readonly per_page: number;
 }

@@ -36,7 +36,7 @@ export class RecipesService {
   async getRecipes(query: GetRecipesQueryDto) {
     const where = {
       name: {
-        contains: query.name || '',
+        contains: query.search || '',
         mode: Prisma.QueryMode.insensitive,
       },
       deletedAt: null,
@@ -45,8 +45,8 @@ export class RecipesService {
     const [recipes, total] = await this.prisma.$transaction([
       this.prisma.recipe.findMany({
         where,
-        skip: (query.page - 1) * query.total,
-        take: query.total,
+        skip: (query.page - 1) * query.per_page,
+        take: query.per_page,
       }),
       this.prisma.recipe.count({ where }),
     ]);
