@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import { ToastAction } from "@/components/ui/toast";
@@ -53,7 +53,17 @@ export default function LoginForm() {
   async function handleLoginSubmit(data: LoginData) {
     if (!form.formState.isValid) return;
 
-    await login(data.email, data.password);
+    try {
+      await login(data.email, data.password);
+    } catch (error: any) {
+      toast({
+        title: "Falha na autenticação",
+        description: error.response.data.message,
+        variant: "destructive",
+        action: <ToastAction altText="Fechar">Fechar</ToastAction>,
+        duration: 6000,
+      });
+    }
   }
 
   return (

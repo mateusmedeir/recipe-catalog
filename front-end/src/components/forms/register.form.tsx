@@ -13,14 +13,17 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export default function RegisterForm() {
   const minPasswordLength = 6;
   const maxPasswordLength = 24;
 
+  const { toast } = useToast();
   const { register } = useAuth();
 
   const RegisterSchema = z.object({
@@ -73,8 +76,14 @@ export default function RegisterForm() {
 
     try {
       register(data.name, data.email, data.password, data.confirmPassword);
-    } catch (error) {
-      console.error(error);
+    } catch (error: any) {
+      toast({
+        title: "Falha no cadastro",
+        description: error.response.data.message,
+        variant: "destructive",
+        action: <ToastAction altText="Fechar">Fechar</ToastAction>,
+        duration: 6000,
+      });
     }
   }
 

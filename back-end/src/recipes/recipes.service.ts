@@ -16,6 +16,7 @@ export class RecipesService {
         ingredients: body.ingredients,
         instructions: body.instructions,
         preparationTime: body.preparationTime,
+        difficulty: body.difficulty,
       },
     });
 

@@ -2,20 +2,15 @@
 
 import api from "@/services/api";
 import { usePathname, useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
 import { IUser } from "@/interfaces/user.interface";
-import { ToastAction } from "@/components/ui/toast";
 import { IAuthContext } from "@/interfaces/auth-context.interface";
 import { createContext, useContext, useEffect, useState } from "react";
-
-const TOKEN_KEY = "accessToken";
 
 const AuthContext = createContext({} as IAuthContext);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { toast } = useToast();
 
   const [user, setUser] = useState<IUser | null>(null);
 
@@ -65,13 +60,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setUser(response.data);
       router.push("/");
     } catch (error: any) {
-      toast({
-        title: "Falha na autenticação",
-        description: error.response.data.message,
-        variant: "destructive",
-        action: <ToastAction altText="Fechar">Fechar</ToastAction>,
-        duration: 6000,
-      });
+      console.log(error);
     }
   };
 

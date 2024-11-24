@@ -11,11 +11,19 @@ import {
 } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFieldArray, useForm } from "react-hook-form";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { RecipeDifficulty } from "@/enums/recipe-difficulty.enum";
 import { PlusCircle, Trash2 } from "lucide-react";
 import api from "@/services/api";
+import {
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  Select,
+} from "@/components/ui/select";
+import { getRecipeDifficulty } from "@/utils/recipes";
 
 export default function RecipeForm() {
   const { toast } = useToast();
@@ -71,7 +79,7 @@ export default function RecipeForm() {
     if (!form.formState.isValid) return;
 
     try {
-      await api.post("/recipes", {
+      const response = await api.post("/recipes", {
         ...data,
         ingredients: data.ingredients.map(
           (ingredient) => ingredient.ingredient
@@ -81,7 +89,6 @@ export default function RecipeForm() {
         ),
       });
     } catch (error) {
-      console.error(error);
       toast({
         title: "Falha ao adicionar receita",
         description: "Ocorreu um erro ao adicionar a receita.",
@@ -204,6 +211,33 @@ export default function RecipeForm() {
                 <FormControl>
                   <FormInput {...field} type="number" placeholder="Ex: 30" />
                 </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="difficulty"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Dificuldade</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue>
+                        {getRecipeDifficulty(field.value as RecipeDifficulty)}
+                      </SelectValue>
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.values(RecipeDifficulty).map(
+                      (difficulty, index) => (
+                        <SelectItem key={index} value={difficulty}>
+                          {getRecipeDifficulty(difficulty)}
+                        </SelectItem>
+                      )
+                    )}
+                  </SelectContent>
+                </Select>
               </FormItem>
             )}
           />
