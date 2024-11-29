@@ -1,5 +1,6 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogHeader,
   DialogTitle,
@@ -9,7 +10,7 @@ import { ArrowLeftIcon, TimerIcon } from "lucide-react";
 import { IRecipe } from "@/interfaces/recipe.interface";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { getRecipeDifficulty } from "@/utils/recipes";
+import { getRecipeDifficulty } from "@/services/recipes";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import RecipeCard from "@/components/cards/recipe-card";
 
@@ -29,15 +30,15 @@ const RecipeModal: React.FC<RecipeModalProps> = ({
           <RecipeCard recipe={recipe} handleDeleteRecipe={handleDeleteRecipe} />
         </button>
       </DialogTrigger>
-      <DialogContent className="max-w-3xl px-0 py-4 gap-0">
-        <div className="px-4 w-full flex justify-between">
-          <DialogPrimitive.Close className="hover:cursor-pointer" asChild>
-            <ArrowLeftIcon />
-          </DialogPrimitive.Close>
-        </div>
-        <div className="container grid gap-12 py-6">
-          <DialogHeader className="text-left flex items-center gap-4">
-            <DialogTitle className="w-full text-3xl">{recipe.name}</DialogTitle>
+      <DialogContent className="max-w-3xl p-0">
+        <div className="container grid gap-8 py-10">
+        <DialogHeader className="w-full grid grid-cols-10 items-center">
+            <DialogClose className="hover:cursor-pointer" asChild>
+              <ArrowLeftIcon />
+            </DialogClose>
+            <DialogTitle className="text-3xl col-span-8 text-center break-words ">
+              {recipe.name} 
+            </DialogTitle>
           </DialogHeader>
           <Card className="mx-auto w-full max-w-[350px]">
             <CardContent className="h-full p-0">

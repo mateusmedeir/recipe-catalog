@@ -104,6 +104,7 @@ export default function LoginForm() {
           )}
         />
         <Button
+          variant="primary"
           type="submit"
           className="w-full"
           disabled={!form.formState.isValid}

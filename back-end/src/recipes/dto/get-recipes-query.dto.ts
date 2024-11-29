@@ -1,18 +1,25 @@
 import {
+  IsEnum,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
   Min,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { RecipeDifficulty } from '@prisma/client';
 
 export class GetRecipesQueryDto {
-  @ApiProperty({})
+  @ApiPropertyOptional()
   @IsString()
   @IsOptional()
   readonly search?: string;
+
+  @ApiPropertyOptional()
+  @IsEnum(RecipeDifficulty)
+  @IsOptional()
+  readonly difficulty?: RecipeDifficulty;
 
   @ApiProperty({
     example: 1,

@@ -23,7 +23,7 @@ import {
   SelectItem,
   Select,
 } from "@/components/ui/select";
-import { getRecipeDifficulty } from "@/utils/recipes";
+import { getRecipeDifficulty } from "@/services/recipes";
 import { useRouter } from "next/navigation";
 
 export default function AddRecipeForm() {
@@ -246,6 +246,7 @@ export default function AddRecipeForm() {
           />
         </div>
         <Button
+          variant="primary"
           type="submit"
           className="w-full"
           disabled={!form.formState.isValid}

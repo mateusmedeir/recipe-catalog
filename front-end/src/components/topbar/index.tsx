@@ -5,6 +5,7 @@ import ProfileMenu from "./_components/profile-menu";
 import { SearchIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { upsertParams } from "@/utils/upsert-params";
 
 interface TopbarProps {
   type?: "default" | "simple";
@@ -25,10 +26,7 @@ const Topbar: React.FC<TopbarProps> = ({ type = "default" }) => {
     const inputValue = e.currentTarget.querySelector("input")?.value;
     const nameSearch = inputValue?.split(" ").join("-").toLowerCase();
 
-    if (nameSearch) params.set("search", nameSearch);
-    else params.delete("search");
-
-    if (params.has("page")) params.set("page", "1");
+    upsertParams(params, "search", nameSearch);
 
     router.push(`/?${params.toString()}`);
   };

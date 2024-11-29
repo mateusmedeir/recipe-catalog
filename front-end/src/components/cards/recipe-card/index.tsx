@@ -1,6 +1,6 @@
 import RecipeMenu from "@/components/cards/recipe-card/_components/recipe-menu";
 import { IRecipe } from "@/interfaces/recipe.interface";
-import { getRecipeDifficulty } from "@/utils/recipes";
+import { getRecipeDifficulty } from "@/services/recipes";
 import { TimerIcon } from "lucide-react";
 
 interface RecipeCardProps {

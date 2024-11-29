@@ -10,9 +10,9 @@ async function bootstrap() {
   app.use(cookieParser());
 
   app.enableCors({
-    credentials: true,
     origin: [process.env.FRONTEND_URL],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
   });
 
   app.useGlobalInterceptors(

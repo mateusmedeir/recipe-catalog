@@ -40,6 +40,7 @@ export class RecipesService {
         contains: query.search || '',
         mode: Prisma.QueryMode.insensitive,
       },
+      difficulty: query.difficulty,
       deletedAt: null,
     };
 
