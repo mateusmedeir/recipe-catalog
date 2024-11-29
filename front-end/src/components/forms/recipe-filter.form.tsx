@@ -1,6 +1,5 @@
 "use client";
 
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -15,14 +14,17 @@ import {
   SelectItem,
   Select,
 } from "@/components/ui/select";
+import {
+  RecipeFilterData,
+  RecipeFilterSchema,
+} from "@/libs/schemas/recipe-filter.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { RecipeDifficulty } from "@/enums/recipe-difficulty.enum";
+import { RecipeDifficulty } from "@/libs/enums/recipe-difficulty.enum";
 import { getRecipeDifficulty } from "@/services/recipes";
 import { useRouter, useSearchParams } from "next/navigation";
-import { upsertParams } from "@/utils/upsert-params";
-import { get } from "http";
+import { upsertParams } from "@/libs/utils/upsert-params";
 
 interface RecipeFilterFormProps {
   handleWhenSubmit: () => void;
@@ -36,14 +38,6 @@ const RecipeFilterForm: React.FC<RecipeFilterFormProps> = ({
   const params = new URLSearchParams(searchParams.toString());
 
   const difficulty = (params.get("difficulty") as RecipeDifficulty) || "Todos";
-
-  const RecipeFilterSchema = z.object({
-    difficulty: z.enum(["Todos", ...Object.values(RecipeDifficulty)] as [
-      string,
-      ...string[]
-    ]),
-  });
-  type RecipeFilterData = z.infer<typeof RecipeFilterSchema>;
 
   const form = useForm<RecipeFilterData>({
     resolver: zodResolver(RecipeFilterSchema),

@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVerticalIcon, PencilIcon, Trash2Icon } from "lucide-react";
-import { IRecipe } from "@/interfaces/recipe.interface";
+import { IRecipe } from "@/libs/interfaces/recipe.interface";
 
 interface RecipeMenuProps {
   recipe: IRecipe;

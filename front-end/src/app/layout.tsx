@@ -1,7 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { AuthProvider } from "@/context/authContext";
+import { AuthProvider } from "@/contexts/auth.context";
 import { Toaster } from "@/components/ui/toaster";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Recipe Catalog",
@@ -18,7 +19,7 @@ export default function RootLayout({
       <body className="flex w-full min-h-svh">
         <AuthProvider>
           <Toaster />
-          {children}
+          <Suspense>{children}</Suspense>
         </AuthProvider>
       </body>
     </html>

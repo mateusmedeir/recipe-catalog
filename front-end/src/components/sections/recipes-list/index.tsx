@@ -1,9 +1,9 @@
 "use client";
 
-import { IRecipe } from "@/interfaces/recipe.interface";
+import { IRecipe } from "@/libs/interfaces/recipe.interface";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import PaginationControl from "@/components/pagination-control";
+import { useEffect, useMemo, useState } from "react";
+import PaginationControl from "@/components/common/pagination-control";
 import { deleteRecipe, getRecipes } from "@/services/recipes";
 import RecipeModal from "@/components/modals/recipe-modal";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,10 @@ import FilterModal from "@/components/modals/filter-modal";
 const RecipesList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams.toString());
+  const params = useMemo(
+    () => new URLSearchParams(searchParams.toString()),
+    [searchParams]
+  );
 
   const [recipes, setRecipes] = useState<IRecipe[]>([]);
   const [total, setTotal] = useState(0);
@@ -23,14 +26,14 @@ const RecipesList = () => {
 
     const newRecipes = recipes.filter((recipe) => recipe.id !== id);
 
+    setRecipes(newRecipes);
     if (newRecipes.length === 0) {
       const page = parseInt(String(params.get("page"))) || 1;
-      setRecipes(newRecipes);
       if (page > 1) {
         params.set("page", String(page - 1));
-        router.push(`?${params.toString()}`);
-        return;
       }
+      router.push(`?${params.toString()}`);
+      return;
     }
   };
 
@@ -41,7 +44,7 @@ const RecipesList = () => {
       setTotal(total);
     };
     fetchRecipes();
-  }, [searchParams]);
+  }, [params]);
 
   return (
     <section className="container flex flex-col gap-6 py-12">

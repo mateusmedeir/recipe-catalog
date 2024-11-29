@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ArrowLeftIcon, TimerIcon } from "lucide-react";
-import { IRecipe } from "@/interfaces/recipe.interface";
+import { IRecipe } from "@/libs/interfaces/recipe.interface";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getRecipeDifficulty } from "@/services/recipes";

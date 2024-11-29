@@ -12,7 +12,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils/utils";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "./password-input";
@@ -113,6 +113,8 @@ const FormInput = React.forwardRef<
 
   return (
     <Input
+      type={type}
+      ref={ref}
       className={cn(
         error && "border-red-500 focus-visible:border-red-800",
         className
@@ -126,17 +128,25 @@ FormInput.displayName = "FormInput";
 const FormPasswordInput = React.forwardRef<
   HTMLInputElement,
   React.ComponentProps<"input">
->(({ className, type, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
   const { error } = useFormField();
 
   return (
-    <PasswordInput
-      className={cn(
-        error && "border-red-500 focus-visible:border-red-500",
-        className
+    <div className="flex flex-col gap-1">
+      <PasswordInput
+        ref={ref}
+        className={cn(
+          error && "border-red-500 focus-visible:border-red-500",
+          className
+        )}
+        {...props}
+      />
+      {props.value && error?.message && (
+        <p className="text-sm font-medium text-red-500 dark:text-red-900">
+          {error.message}
+        </p>
       )}
-      {...props}
-    />
+    </div>
   );
 });
 FormPasswordInput.displayName = "FormPasswordInput";

@@ -2,9 +2,12 @@
 
 import api from "@/services/api";
 import { usePathname, useRouter } from "next/navigation";
-import { IUser } from "@/interfaces/user.interface";
-import { IAuthContext } from "@/interfaces/auth-context.interface";
+import { IUser } from "@/libs/interfaces/user.interface";
+import { IAuthContext } from "@/libs/interfaces/auth-context.interface";
 import { createContext, useContext, useEffect, useState } from "react";
+import { RegisterData } from "@/libs/schemas/register.schema";
+import { loginUser, logoutUser, registerUser } from "@/services/auth";
+import { LoginData } from "@/libs/schemas/login.schema";
 
 const AuthContext = createContext({} as IAuthContext);
 
@@ -22,57 +25,30 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(response.data);
         if (pathname.includes("/login") || pathname.includes("/cadastro"))
           router.push("/");
-      } catch (error) {
-        router.push("/login");
+      } catch {
+        if (!pathname.includes("/login") && !pathname.includes("/cadastro"))
+          router.push("/login");
       }
     };
     loadUser();
-  }, []);
+  }, [pathname, router]);
 
-  const register = async (
-    name: string,
-    email: string,
-    password: string,
-    confirmPassword: string
-  ) => {
-    try {
-      const response = await api.post("/auth/register", {
-        name,
-        email,
-        password,
-        confirmPassword,
-      });
-
-      setUser(response.data);
-      router.push("/");
-    } catch (error) {
-      console.error(error);
-    }
+  const register = async (data: RegisterData) => {
+    const userData = await registerUser(data);
+    setUser(userData);
+    router.push("/");
   };
 
-  const login = async (email: string, password: string) => {
-    try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
-
-      setUser(response.data);
-      router.push("/");
-    } catch (error: any) {
-      console.log(error);
-    }
+  const login = async (data: LoginData) => {
+    const userData = await loginUser(data);
+    setUser(userData);
+    router.push("/");
   };
 
   const logout = async () => {
-    try {
-      await api.post("/auth/logout");
-
-      setUser(null);
-      router.push("/login");
-    } catch (error: any) {
-      console.error(error);
-    }
+    await logoutUser();
+    setUser(null);
+    router.push("/login");
   };
 
   return (

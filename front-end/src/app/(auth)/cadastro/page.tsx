@@ -1,6 +1,6 @@
-import FormContainer from "@/components/form-container";
+import FormContainer from "@/components/common/form-container";
 import RegisterForm from "@/components/forms/register.form";
-import Topbar from "@/components/topbar";
+import Topbar from "@/components/common/topbar";
 
 export default function Register() {
   return (

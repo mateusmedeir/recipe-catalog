@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/contexts/auth.context";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LogOutIcon } from "lucide-react";
@@ -27,7 +27,7 @@ const ProfileMenu = () => {
 
   return (
     <>
-      {!!user ? (
+      {user ? (
         <DropdownMenu>
           <DropdownMenuTrigger className="outline-none" asChild>
             <button className="flex gap-1 items-center">

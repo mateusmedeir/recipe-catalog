@@ -1,4 +1,4 @@
-import Topbar from "@/components/topbar";
+import Topbar from "@/components/common/topbar";
 import RecipesList from "@/components/sections/recipes-list";
 import { Suspense } from "react";
 

@@ -1,7 +1,5 @@
 "use client";
 
-import { z } from "zod";
-
 import {
   Form,
   FormControl,
@@ -14,32 +12,15 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/contexts/auth.context";
 import Link from "next/link";
 import { ToastAction } from "@/components/ui/toast";
 import { useToast } from "@/hooks/use-toast";
+import { LoginData, LoginSchema } from "@/libs/schemas/login.schema";
 
 export default function LoginForm() {
-  const minPasswordLength = 6;
-  const maxPasswordLength = 24;
-
-  const { toast } = useToast();
   const { login } = useAuth();
-
-  const LoginSchema = z.object({
-    email: z.string().email({
-      message: "Email inválido",
-    }),
-    password: z
-      .string()
-      .min(minPasswordLength, {
-        message: "Senha deve ter no mínimo 6 caracteres",
-      })
-      .max(maxPasswordLength, {
-        message: "Senha deve ter no máximo 24 caracteres",
-      }),
-  });
-  type LoginData = z.infer<typeof LoginSchema>;
+  const { toast } = useToast();
 
   const form = useForm<LoginData>({
     resolver: zodResolver(LoginSchema),
@@ -54,11 +35,11 @@ export default function LoginForm() {
     if (!form.formState.isValid) return;
 
     try {
-      await login(data.email, data.password);
+      await login(data);
     } catch (error: any) {
       toast({
         title: "Falha na autenticação",
-        description: error.response.data.message,
+        description: "Email ou senha incorretos",
         variant: "destructive",
         action: <ToastAction altText="Fechar">Fechar</ToastAction>,
         duration: 6000,

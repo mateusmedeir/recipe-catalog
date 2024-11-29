@@ -1,4 +1,4 @@
-import { RecipeDifficulty } from "@/enums/recipe-difficulty.enum";
+import { RecipeDifficulty } from "@/libs/enums/recipe-difficulty.enum";
 
 export interface IRecipe {
   id: string;

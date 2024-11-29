@@ -1,6 +1,5 @@
 "use client";
 
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -9,13 +8,6 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useFieldArray, useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { RecipeDifficulty } from "@/enums/recipe-difficulty.enum";
-import { PlusCircle, Trash2 } from "lucide-react";
-import api from "@/services/api";
 import {
   SelectContent,
   SelectTrigger,
@@ -23,29 +15,19 @@ import {
   SelectItem,
   Select,
 } from "@/components/ui/select";
-import { getRecipeDifficulty } from "@/services/recipes";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useFieldArray, useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { RecipeDifficulty } from "@/libs/enums/recipe-difficulty.enum";
+import { PlusCircle, Trash2 } from "lucide-react";
+import { createRecipe, getRecipeDifficulty } from "@/services/recipes";
 import { useRouter } from "next/navigation";
+import { RecipeData, RecipeSchema } from "@/libs/schemas/recipe.schema";
 
 export default function AddRecipeForm() {
-  const { toast } = useToast();
   const router = useRouter();
-
-  const RecipeSchema = z.object({
-    name: z.string().min(3).max(80),
-    ingredients: z
-      .array(z.object({ ingredient: z.string().min(3).max(80) }))
-      .min(1)
-      .max(30),
-    instructions: z
-      .array(z.object({ instruction: z.string().min(3).max(200) }))
-      .min(1)
-      .max(30),
-    preparationTime: z.coerce.number().int().min(1).max(180),
-    difficulty: z.enum(
-      Object.values(RecipeDifficulty) as [string, ...string[]]
-    ),
-  });
-  type RecipeData = z.infer<typeof RecipeSchema>;
+  const { toast } = useToast();
 
   const form = useForm<RecipeData>({
     resolver: zodResolver(RecipeSchema),
@@ -81,17 +63,9 @@ export default function AddRecipeForm() {
     if (!form.formState.isValid) return;
 
     try {
-      await api.post("/recipes", {
-        ...data,
-        ingredients: data.ingredients.map(
-          (ingredient) => ingredient.ingredient
-        ),
-        instructions: data.instructions.map(
-          (instruction) => instruction.instruction
-        ),
-      });
+      await createRecipe(data);
       router.push("/");
-    } catch (error) {
+    } catch {
       toast({
         title: "Falha ao adicionar receita",
         description: "Ocorreu um erro ao adicionar a receita.",

@@ -1,7 +1,5 @@
 "use client";
 
-import { z } from "zod";
-
 import {
   Form,
   FormControl,
@@ -14,51 +12,15 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/authContext";
+import { useAuth } from "@/contexts/auth.context";
 import Link from "next/link";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import { RegisterData, RegisterSchema } from "@/libs/schemas/register.schema";
 
 export default function RegisterForm() {
-  const minPasswordLength = 6;
-  const maxPasswordLength = 24;
-
   const { toast } = useToast();
   const { register } = useAuth();
-
-  const RegisterSchema = z.object({
-    name: z
-      .string()
-      .min(3, {
-        message: "Nome deve ter no mínimo 3 caracteres",
-      })
-      .max(50, {
-        message: "Nome deve ter no máximo 50 caracteres",
-      }),
-    email: z.string().email({
-      message: "Email inválido",
-    }),
-    password: z
-      .string()
-      .min(minPasswordLength, {
-        message: "Senha deve ter no mínimo 6 caracteres",
-      })
-      .max(maxPasswordLength, {
-        message: "Senha deve ter no máximo 24 caracteres",
-      }),
-    confirmPassword: z
-      .string()
-      .min(minPasswordLength, {
-        message: "Senha deve ter no mínimo 6 caracteres",
-      })
-      .max(maxPasswordLength, {
-        message: "Senha deve ter no máximo 24 caracteres",
-      })
-      .refine((data: string): boolean => data === form.getValues().password, {
-        message: "Senhas não conferem",
-      }),
-  });
-  type RegisterData = z.infer<typeof RegisterSchema>;
 
   const form = useForm<RegisterData>({
     resolver: zodResolver(RegisterSchema),
@@ -75,11 +37,12 @@ export default function RegisterForm() {
     if (!form.formState.isValid) return;
 
     try {
-      register(data.name, data.email, data.password, data.confirmPassword);
+      await register(data);
     } catch (error: any) {
+      console.log("Test");
       toast({
         title: "Falha no cadastro",
-        description: error.response.data.message,
+        description: "Email já cadastrado",
         variant: "destructive",
         action: <ToastAction altText="Fechar">Fechar</ToastAction>,
         duration: 6000,

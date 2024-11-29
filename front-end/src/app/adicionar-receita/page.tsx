@@ -1,6 +1,6 @@
-import FormContainer from "@/components/form-container";
+import FormContainer from "@/components/common/form-container";
 import AddRecipeForm from "@/components/forms/add-recipe.form";
-import Topbar from "@/components/topbar";
+import Topbar from "@/components/common/topbar";
 
 export default function AddRecipe() {
   return (

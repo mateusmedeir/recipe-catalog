@@ -1,7 +1,7 @@
-# Sofex Test
+<h1 align="center">Sofex Test</h1>
 
 ## Funcionalidades
-- Autenticação (com token JWT via cookie httpOnly)
+- Autenticação (com token JWT via cookie)
     - Login de usuário
     - Cadastro de usuário
 - Receitas
@@ -21,30 +21,36 @@ sofex-test/
 ├── backend/
 │   ├── prisma/
 │   │   ├── migrations/
-│   │   ├── seeds/
+│   │   ├── seeds/                # Seeds do banco de dados
 │   │   ├── schema.prisma 
 │   ├── src/
-│   │   ├── common/           # Componentes comuns (decorators, enums, guards, etc.)
+│   │   ├── auth/
+│   │   ├── common/               # Componentes comuns (decorators, enums, guards, etc.)
+│   │   ├── health/
+│   │   ├── recipes/
+│   │   ├── users/
 │   │   ├── app.module.ts
 │   │   └── main.ts
-│   ├── tests/
 │   └── ...
 └── frontend/
         ├── public/
         ├── src/
-        │   ├── app/              # Páginas do app
+        │   ├── app/
         │   ├── components/
-        │   │   ├── ...           # Componentes gerais
+        │   │   ├── common/       # Componentes gerais
         │   │   ├── cards/        # Cards
         │   │   ├── forms/        # Formulários
         │   │   ├── modals/       # Modais
         │   │   ├── sections/     # Seções da Home
         │   │   └── ui/           # Componentes do shadcn
-        │   ├── context/          # Contextos do React
-        │   ├── enums/            # Enums usados no projeto
-        │   ├── hooks/            # Hooks personalizados
-        │   ├── libs/             # Bibliotecas e utils
-        │   ├── services/         # Serviços e chamadas de API
+        │   ├── contexts/
+        │   ├── hooks/
+        │   ├── libs/
+        │   │   ├── enums/        # Enums usados no projeto
+        │   │   ├── interfaces/   # Interfaces usadas no projeto
+        │   │   ├── schemas/      # Schemas usados no projeto
+        │   │   └── utils/        # Utilitários
+        │   └── services/         # Serviços e chamadas de API
         └── ...
 ```
 

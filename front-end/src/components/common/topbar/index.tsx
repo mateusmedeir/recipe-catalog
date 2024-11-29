@@ -5,7 +5,7 @@ import ProfileMenu from "./_components/profile-menu";
 import { SearchIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { upsertParams } from "@/utils/upsert-params";
+import { upsertParams } from "@/libs/utils/upsert-params";
 
 interface TopbarProps {
   type?: "default" | "simple";
