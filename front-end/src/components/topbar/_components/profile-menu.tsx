@@ -9,6 +9,7 @@ import {
 import { useAuth } from "@/context/authContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
+import { LogOutIcon } from "lucide-react";
 
 const ProfileMenu = () => {
   const { user, logout } = useAuth();
@@ -42,8 +43,9 @@ const ProfileMenu = () => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={logout}>
-              <span>Sair</span>
+            <DropdownMenuItem onClick={logout} variant="destructive">
+              <LogOutIcon />
+              Sair
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

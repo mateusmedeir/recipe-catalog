@@ -1,17 +1,17 @@
-import './globals.css'
-import type { Metadata } from 'next'
-import { AuthProvider } from '@/context/authContext'
-import { Toaster } from '@/components/ui/toaster'
+import "./globals.css";
+import type { Metadata } from "next";
+import { AuthProvider } from "@/context/authContext";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Recipe Catalog',
-  description: 'A simple recipe catalog app'
-}
+  title: "Recipe Catalog",
+  description: "A simple recipe catalog app",
+};
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="pt-br">
@@ -22,5 +22,5 @@ export default function RootLayout({
         </AuthProvider>
       </body>
     </html>
-  )
+  );
 }

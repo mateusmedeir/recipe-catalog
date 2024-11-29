@@ -4,7 +4,7 @@ import Topbar from "@/components/topbar";
 
 export default function AddRecipe() {
   return (
-    <main className='w-full flex flex-col'>
+    <main className="w-full flex flex-col">
       <Topbar />
       <FormContainer title="Adicionar Receita">
         <AddRecipeForm />

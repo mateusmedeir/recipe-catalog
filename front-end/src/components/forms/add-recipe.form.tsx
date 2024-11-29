@@ -55,7 +55,7 @@ export default function AddRecipeForm() {
       ingredients: [{ ingredient: "" }],
       instructions: [{ instruction: "" }],
       preparationTime: 0,
-      difficulty: RecipeDifficulty.EASY,
+      difficulty: "",
     },
   });
 
@@ -159,7 +159,7 @@ export default function AddRecipeForm() {
                 onClick={() => appendIngredient({ ingredient: "" })}
                 className="mt-2 w-fit"
               >
-                <PlusCircle className="h-4 w-4 mr-2" />
+                <PlusCircle className="h-4 w-4" />
                 Adicionar Ingrediente
               </Button>
             )}
@@ -200,7 +200,7 @@ export default function AddRecipeForm() {
                 onClick={() => appendInstruction({ instruction: "" })}
                 className="mt-2 w-fit"
               >
-                <PlusCircle className="h-4 w-4 mr-2" />
+                <PlusCircle className="h-4 w-4" />
                 Adicionar Instrução
               </Button>
             )}

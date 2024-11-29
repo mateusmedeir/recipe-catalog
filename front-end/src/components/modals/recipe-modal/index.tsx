@@ -11,7 +11,6 @@ import { IRecipe } from "@/interfaces/recipe.interface";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getRecipeDifficulty } from "@/services/recipes";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import RecipeCard from "@/components/cards/recipe-card";
 
 interface RecipeModalProps {
@@ -32,12 +31,12 @@ const RecipeModal: React.FC<RecipeModalProps> = ({
       </DialogTrigger>
       <DialogContent className="max-w-3xl p-0">
         <div className="container grid gap-8 py-10">
-        <DialogHeader className="w-full grid grid-cols-10 items-center">
+          <DialogHeader className="w-full grid grid-cols-10 items-center">
             <DialogClose className="hover:cursor-pointer" asChild>
               <ArrowLeftIcon />
             </DialogClose>
             <DialogTitle className="text-3xl col-span-8 text-center break-words ">
-              {recipe.name} 
+              {recipe.name}
             </DialogTitle>
           </DialogHeader>
           <Card className="mx-auto w-full max-w-[350px]">

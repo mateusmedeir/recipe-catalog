@@ -9,7 +9,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ArrowLeftIcon, ListFilterIcon } from "lucide-react";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import RecipeFilterForm from "@/components/forms/recipe-filter.form";
 import { useState } from "react";
@@ -27,7 +26,7 @@ const FilterModal = () => {
       </DialogTrigger>
       <DialogContent className="max-w-lg p-0">
         <div className="container flex flex-col gap-6 py-10 items-center">
-        <DialogHeader className="w-full grid grid-cols-10 items-center">
+          <DialogHeader className="w-full grid grid-cols-10 items-center">
             <DialogClose className="hover:cursor-pointer" asChild>
               <ArrowLeftIcon />
             </DialogClose>

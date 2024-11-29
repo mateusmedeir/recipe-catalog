@@ -25,12 +25,13 @@ const RecipesList = () => {
 
     if (newRecipes.length === 0) {
       const page = parseInt(String(params.get("page"))) || 1;
+      setRecipes(newRecipes);
       if (page > 1) {
         params.set("page", String(page - 1));
         router.push(`?${params.toString()}`);
         return;
       }
-    } else setRecipes(newRecipes);
+    }
   };
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const RecipesList = () => {
           <PlusCircleIcon />
           Adicionar Receita
         </Button>
-      <FilterModal />
+        <FilterModal />
       </div>
       {recipes?.map((recipe, index) => (
         <RecipeModal
