@@ -6,36 +6,34 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ArrowLeftIcon, TimerIcon } from "lucide-react";
-
 import { IRecipe } from "@/interfaces/recipe.interface";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { getRecipeDifficulty } from "@/utils/recipes";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import RecipeMenu from "./_components/recipe-menu";
+import RecipeCard from "@/components/cards/recipe-card";
 
 interface RecipeModalProps {
   recipe: IRecipe;
-  deleteRecipe: (id: string) => void;
-  children: React.ReactNode;
+  handleDeleteRecipe: (id: string) => void;
 }
 
 const RecipeModal: React.FC<RecipeModalProps> = ({
   recipe,
-  deleteRecipe,
-  children,
+  handleDeleteRecipe,
 }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <button>{children}</button>
+        <button>
+          <RecipeCard recipe={recipe} handleDeleteRecipe={handleDeleteRecipe} />
+        </button>
       </DialogTrigger>
       <DialogContent className="max-w-3xl px-0 py-4 gap-0">
         <div className="px-4 w-full flex justify-between">
           <DialogPrimitive.Close className="hover:cursor-pointer" asChild>
             <ArrowLeftIcon />
           </DialogPrimitive.Close>
-          <RecipeMenu recipe={recipe} deleteRecipe={deleteRecipe} />
         </div>
         <div className="container grid gap-12 py-6">
           <DialogHeader className="text-left flex items-center gap-4">

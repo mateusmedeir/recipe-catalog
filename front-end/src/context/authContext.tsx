@@ -20,7 +20,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const response = await api.get("/users/me");
 
         setUser(response.data);
-        if (pathname.includes("/login") || pathname.includes("/register"))
+        if (pathname.includes("/login") || pathname.includes("/cadastro"))
           router.push("/");
       } catch (error) {
         router.push("/login");

@@ -112,7 +112,7 @@ export default function LoginForm() {
         </Button>
         <p>
           Não possui uma conta?{" "}
-          <Link className="underline font-medium" href="/register">
+          <Link className="underline font-medium" href="/cadastro">
             Cadastre-se
           </Link>
         </p>

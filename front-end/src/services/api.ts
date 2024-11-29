@@ -1,11 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
   withCredentials: true,
-  // baseURL: process.env.NEXT_PUBLIC_BACKEND_API_URL,
 });
-
 
 api.interceptors.response.use(
   (response) => {
@@ -17,7 +15,7 @@ api.interceptors.response.use(
       error?.response?.status === 401 &&
       !!window?.location &&
       !window?.location?.pathname.includes("/login") &&
-      !window?.location?.pathname.includes("/register")
+      !window?.location?.pathname.includes("/cadastro")
     ) {
       window.location.href = "/login";
     }

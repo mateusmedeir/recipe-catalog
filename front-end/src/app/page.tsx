@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 export default async function Home() {
   return (
-    <main>
+    <main className="w-full">
       <Topbar />
       <Suspense>
         <RecipesList />

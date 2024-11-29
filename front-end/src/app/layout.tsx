@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <body className="h-svh">
+      <body className="flex w-full min-h-svh">
         <AuthProvider>
           <Toaster />
           {children}

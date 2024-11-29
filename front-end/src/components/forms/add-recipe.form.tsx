@@ -24,9 +24,11 @@ import {
   Select,
 } from "@/components/ui/select";
 import { getRecipeDifficulty } from "@/utils/recipes";
+import { useRouter } from "next/navigation";
 
-export default function RecipeForm() {
+export default function AddRecipeForm() {
   const { toast } = useToast();
+  const router = useRouter();
 
   const RecipeSchema = z.object({
     name: z.string().min(3).max(80),
@@ -79,7 +81,7 @@ export default function RecipeForm() {
     if (!form.formState.isValid) return;
 
     try {
-      const response = await api.post("/recipes", {
+      await api.post("/recipes", {
         ...data,
         ingredients: data.ingredients.map(
           (ingredient) => ingredient.ingredient
@@ -88,6 +90,7 @@ export default function RecipeForm() {
           (instruction) => instruction.instruction
         ),
       });
+      router.push("/");
     } catch (error) {
       toast({
         title: "Falha ao adicionar receita",

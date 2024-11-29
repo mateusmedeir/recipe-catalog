@@ -68,11 +68,11 @@ const Topbar: React.FC<TopbarProps> = ({ type = "default" }) => {
             {type === "default" && (
               <>
                 <form
-                  className="max-sm:hidden bg-white flex items-center px-5 gap-2"
+                  className="max-sm:hidden bg-white rounded-lg flex items-center px-5 gap-2"
                   onSubmit={handleFormSubmit}
                 >
                   <input
-                    className="bg-transparent w-full h-min text-black py-2.5 rounded-lg outline-none"
+                    className="bg-transparent w-full h-min text-black py-2.5 outline-none"
                     type="text"
                     placeholder="Pesquisar"
                   />

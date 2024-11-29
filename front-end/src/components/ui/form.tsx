@@ -132,7 +132,7 @@ const FormPasswordInput = React.forwardRef<
   return (
     <PasswordInput
       className={cn(
-        error && "border-red-500 focus-visible:ring-red-500",
+        error && "border-red-500 focus-visible:border-red-500",
         className
       )}
       {...props}

@@ -1,13 +1,11 @@
 "use client";
 
-import RecipeCard from "@/components/cards/recipe-card";
 import { IRecipe } from "@/interfaces/recipe.interface";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import PaginationControl from "@/components/pagination-control";
 import { deleteRecipe, getRecipes } from "@/utils/recipes";
 import RecipeModal from "@/components/modals/recipe-modal";
-import AddRecipeModal from "@/components/modals/add-recipe-modal";
 import { Button } from "@/components/ui/button";
 import { PlusCircleIcon } from "lucide-react";
 
@@ -46,21 +44,20 @@ const RecipesList = () => {
   }, [searchParams]);
 
   return (
-    <section className="container flex flex-col gap-6 py-16">
-      <AddRecipeModal>
-        <Button className="w-fit">
-          <PlusCircleIcon />
-          Adicionar Receita
-        </Button>
-      </AddRecipeModal>
+    <section className="container flex flex-col gap-6 py-12">
+      <Button
+        className="w-fit"
+        onClick={() => router.push("/adicionar-receita")}
+      >
+        <PlusCircleIcon />
+        Adicionar Receita
+      </Button>
       {recipes?.map((recipe, index) => (
         <RecipeModal
           key={index}
           recipe={recipe}
-          deleteRecipe={handledeleteRecipe}
-        >
-          <RecipeCard recipe={recipe} />
-        </RecipeModal>
+          handleDeleteRecipe={handledeleteRecipe}
+        ></RecipeModal>
       ))}
       <PaginationControl link="" total={total} />
     </section>

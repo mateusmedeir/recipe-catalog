@@ -4,7 +4,7 @@ import Topbar from '@/components/topbar'
 
 export default function Login() {
   return (
-    <main className='w-full h-full flex flex-col'>
+    <main className='w-full flex flex-col'>
       <Topbar type='simple' />
       <FormContainer title="Login">
         <LoginForm />

@@ -8,14 +8,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVerticalIcon, PencilIcon, Trash2Icon } from "lucide-react";
 import { IRecipe } from "@/interfaces/recipe.interface";
-import { DialogClose } from "@/components/ui/dialog";
 
 interface RecipeMenuProps {
   recipe: IRecipe;
-  deleteRecipe: (id: string) => void;
+  handleDeleteRecipe: (id: string) => void;
 }
 
-const RecipeMenu: React.FC<RecipeMenuProps> = ({ recipe, deleteRecipe }) => {
+const RecipeMenu: React.FC<RecipeMenuProps> = ({
+  recipe,
+  handleDeleteRecipe,
+}) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,16 +28,16 @@ const RecipeMenu: React.FC<RecipeMenuProps> = ({ recipe, deleteRecipe }) => {
           <PencilIcon />
           Editar
         </DropdownMenuItem>
-        <DialogClose className="hover:cursor-pointer" asChild>
-          <DropdownMenuItem
-            onSelect={(e) => e.preventDefault()}
-            variant="destructive"
-            onClick={async () => deleteRecipe(recipe.id)}
-          >
-            <Trash2Icon />
-            Deletar
-          </DropdownMenuItem>
-        </DialogClose>
+        <DropdownMenuItem
+          variant="destructive"
+          onClick={async (e) => {
+            e.stopPropagation();
+            handleDeleteRecipe(recipe.id);
+          }}
+        >
+          <Trash2Icon />
+          Deletar
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
