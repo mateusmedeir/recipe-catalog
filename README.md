@@ -1,19 +1,25 @@
 <h1 align="center">Sofex Test</h1>
+<p align="center"><strong>Desafio técnico</strong></p>
 
-## Funcionalidades
-- Autenticação (com token JWT via cookie)
+## 📑 Sobre
+---
+> O objetivo deste desafio foi desenvolver uma aplicação web para gestão de receitas de cozinha, com autenticação e sistema de cadastro de usuários.
+---
+
+### Funcionalidades
+- Autenticação (com token JWT via cookie):
     - Login de usuário
     - Cadastro de usuário
-- Receitas
+- Receitas:
     - Listagem de receitas
         - Opções de filtro por nome e dificuldade da receita
-        - Cards das receitas com opção de deleção (soft-delete)
+        - Exibição em cards com opção de deleção (soft-delete)
     - Modal com detalhes da receita selecionada
 
-## Design System
-Para este projeto, escolhi para o design system utilizar o [shadcn](https://shadcn.dev/).
+### Design System
+Para este projeto, optei por utilizar o [shadcn](https://shadcn.dev/) como design system.
 
-## Organização das Pastas
+### Organização das Pastas
 A estrutura de pastas do projeto está organizada da seguinte forma:
 
 ```
@@ -54,7 +60,7 @@ sofex-test/
         └── ...
 ```
 
-## Como começar
+## ⚙️ Como começar
 1. Clone o repositório:
     ```sh
     git clone https://github.com/seu-usuario/sofex-test.git
@@ -67,7 +73,7 @@ sofex-test/
 ### Front-end
 1. Instale as dependências do frontend:
     ```sh
-    cd sofex-test/frontend
+    cd frontend
     yarn
     ```
 2. Inicie o frontend:
@@ -78,11 +84,24 @@ sofex-test/
 ### Back-end
 1. Instale as dependências do backend:
     ```sh
-    cd ../backend
-    npm install
+    cd backend
+    yarn
     ```
 2. Inicie o backend:
     ```sh
-    cd ../backend
     yarn start:dev
+    ```
+#### Seeds
+Para popular o banco de dados com dados iniciais, siga os passos abaixo:
+1. Certifique-se de ter o dotenv-cli instalado:
+    ```sh
+    npm i -g dotenv-cli
+    ```
+2. Rode a seed de usuários:
+    ```sh
+    yarn prisma:seed:users
+    ```
+3. Em seguida, rode a seed das receitas:
+    ```sh
+    yarn prisma:seed:recipes
     ```
