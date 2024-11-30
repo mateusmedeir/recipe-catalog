@@ -25,7 +25,7 @@ sofex-test/
 │   │   ├── schema.prisma 
 │   ├── src/
 │   │   ├── auth/
-│   │   ├── common/               # Componentes comuns (decorators, enums, guards, etc.)
+│   │   ├── common/               # Componentes gerais (decorators, enums, guards, etc.)
 │   │   ├── health/
 │   │   ├── recipes/
 │   │   ├── users/
@@ -37,7 +37,7 @@ sofex-test/
         ├── src/
         │   ├── app/
         │   ├── components/
-        │   │   ├── common/       # Componentes gerais
+        │   │   ├── common/       # Componentes gerais (topbar, pagination-control, etc.)
         │   │   ├── cards/        # Cards
         │   │   ├── forms/        # Formulários
         │   │   ├── modals/       # Modais

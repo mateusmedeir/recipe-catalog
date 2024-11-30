@@ -1,8 +1,10 @@
 import { z } from "zod";
 import { RecipeDifficulty } from "@/libs/enums/recipe-difficulty.enum";
 
+
+
 const RecipeFilterSchema = z.object({
-    difficulty: z.enum(["Todos", ...Object.values(RecipeDifficulty)] as [
+    difficulty: z.enum(["Todas", ...Object.values(RecipeDifficulty)] as [
       string,
       ...string[]
     ]),

@@ -74,7 +74,9 @@ const Topbar: React.FC<TopbarProps> = ({ type = "default" }) => {
                     type="text"
                     placeholder="Pesquisar"
                   />
-                  <SearchIcon />
+                  <button className="cursor-pointer" type="submit">
+                    <SearchIcon />
+                  </button>
                 </form>
                 <div className="ml-auto flex items-center gap-4">
                   <button

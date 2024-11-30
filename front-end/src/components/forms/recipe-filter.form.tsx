@@ -37,7 +37,7 @@ const RecipeFilterForm: React.FC<RecipeFilterFormProps> = ({
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
 
-  const difficulty = (params.get("difficulty") as RecipeDifficulty) || "Todos";
+  const difficulty = (params.get("difficulty") as RecipeDifficulty) || "Todas";
 
   const form = useForm<RecipeFilterData>({
     resolver: zodResolver(RecipeFilterSchema),
@@ -79,15 +79,15 @@ const RecipeFilterForm: React.FC<RecipeFilterFormProps> = ({
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue>
-                        {getRecipeDifficulty(field.value) || "Todos"}
+                        {getRecipeDifficulty(field.value) || "Todas"}
                       </SelectValue>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {["Todos", ...Object.values(RecipeDifficulty)].map(
+                    {["Todas", ...Object.values(RecipeDifficulty)].map(
                       (recipeDifficulty, index) => (
                         <SelectItem key={index} value={recipeDifficulty}>
-                          {getRecipeDifficulty(recipeDifficulty) || "Todos"}
+                          {getRecipeDifficulty(recipeDifficulty) || "Todas"}
                         </SelectItem>
                       )
                     )}

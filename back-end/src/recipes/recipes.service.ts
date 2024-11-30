@@ -4,6 +4,7 @@ import { NotFoundError } from 'src/common/exceptions';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { GetRecipesQueryDto } from './dto/get-recipes-query.dto';
 import { Prisma } from '@prisma/client';
+import { UpdateRecipeDto } from './dto/update.recipe.dto';
 
 @Injectable()
 export class RecipesService {
@@ -11,13 +12,7 @@ export class RecipesService {
 
   async createRecipe(body: CreateRecipeDto) {
     const recipe = await this.prisma.recipe.create({
-      data: {
-        name: body.name,
-        ingredients: body.ingredients,
-        instructions: body.instructions,
-        preparationTime: body.preparationTime,
-        difficulty: body.difficulty,
-      },
+      data: body,
     });
 
     return recipe;
@@ -55,18 +50,15 @@ export class RecipesService {
     return { data: recipes, total };
   }
 
-  /*   async update(id: string, body: UpdateRecipeDto) {
+  async updateRecipe(id: string, body: UpdateRecipeDto) {
     const recipe = await this.prisma.recipe.findUnique({ where: { id } });
-
     if (!recipe) throw new NotFoundError('Receita não encontrada');
 
     return this.prisma.recipe.update({
       where: { id },
-      data: {
-        ...body,
-      },
+      data: body,
     });
-  } */
+  }
 
   async deleteRecipe(id: string) {
     const recipe = await this.prisma.recipe.findUnique({ where: { id } });

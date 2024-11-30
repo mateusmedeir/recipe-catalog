@@ -11,7 +11,7 @@
 }
 
 body {
-  @apply bg-gray-50;
+  @apply bg-gray-100;
 }
 
 body[data-scroll-locked][data-scroll-locked] {

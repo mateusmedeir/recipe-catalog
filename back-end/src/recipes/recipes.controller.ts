@@ -7,6 +7,7 @@ import {
   Delete,
   UseGuards,
   Query,
+  Patch,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -22,6 +23,7 @@ import { RecipeResponseDto } from './dto/recipe-response.dto';
 import { JwtAuthGuard } from 'src/common/guards/jwt.guard';
 import { GetRecipesQueryDto } from './dto/get-recipes-query.dto';
 import { RecipesResponseDto } from './dto/recipes-response.dto';
+import { UpdateRecipeDto } from './dto/update.recipe.dto';
 
 @ApiBearerAuth()
 @ApiTags('recipes')
@@ -36,10 +38,10 @@ export class RecipesController {
     description: 'Receita criada com sucesso',
     type: RecipeResponseDto,
   })
-  createRecipe(@Body() createRecipeDto: CreateRecipeDto) {
+  createRecipe(@Body() body: CreateRecipeDto) {
     return plainToInstance(
       RecipeResponseDto,
-      this.recipesService.createRecipe(createRecipeDto),
+      this.recipesService.createRecipe(body),
     );
   }
 
@@ -71,10 +73,19 @@ export class RecipesController {
     );
   }
 
-  /*   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRecipeDto: UpdateRecipeDto) {
-    return this.recipesService.update(id, updateRecipeDto);
-  } */
+  @Patch(':id')
+  @ApiOperation({ summary: 'Atualiza uma receita' })
+  @ApiResponse({
+    status: 200,
+    description: 'operação bem-sucedida',
+    type: RecipeResponseDto,
+  })
+  update(@Param('id') id: string, @Body() body: UpdateRecipeDto) {
+    return plainToInstance(
+      RecipeResponseDto,
+      this.recipesService.updateRecipe(id, body),
+    );
+  }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Remove uma receita' })
