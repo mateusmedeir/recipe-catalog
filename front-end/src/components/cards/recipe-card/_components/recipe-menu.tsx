@@ -24,10 +24,6 @@ const RecipeMenu: React.FC<RecipeMenuProps> = ({
         <EllipsisVerticalIcon />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>
-          <PencilIcon />
-          Editar
-        </DropdownMenuItem>
         <DropdownMenuItem
           variant="destructive"
           onClick={async (e) => {
