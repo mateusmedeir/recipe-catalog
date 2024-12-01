@@ -17,7 +17,7 @@
     - Modal com detalhes da receita selecionada
 
 ### Design System
-Para este projeto, optei por utilizar o [shadcn](https://shadcn.dev/) como design system.
+Para este projeto, optei por utilizar o [shadcn](https://ui.shadcn.com) como design system.
 
 ### Organização das Pastas
 A estrutura de pastas do projeto está organizada da seguinte forma:
@@ -63,7 +63,7 @@ sofex-test/
 ## ⚙️ Como começar
 1. Clone o repositório:
     ```sh
-    git clone https://github.com/seu-usuario/sofex-test.git
+    git clone git@github.com:mateusmedeir/sofex-test.git
     ```
 2. Navegue para a pasta do projeto:
     ```sh
