@@ -1,4 +1,4 @@
-<h1 align="center">Sofex Test</h1>
+<h1 align="center">Recipe Catalog</h1>
 <p align="center"><strong>Desafio técnico</strong></p>
 
 ## 📑 Sobre
